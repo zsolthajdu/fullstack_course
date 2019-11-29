@@ -6,9 +6,11 @@ const Persons = ( props ) => {
     if( person.name.toLowerCase().includes( props.filter.toLowerCase() ) )
       return (
         <Person
-          key  = { person.name }
+          key={ person.id }
+          id={ person.id }
           name = { person.name }
           number = {person.number }
+          deleteHandler={props.deleteHandler}
         />
         )
     else
