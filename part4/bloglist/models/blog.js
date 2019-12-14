@@ -1,12 +1,32 @@
 
 const mongoose = require('mongoose')
 mongoose.set('useUnifiedTopology', true )
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
 
 const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
+  title: {
+    type:String,
+    required: true,
+    minlength: 3
+  },
+  author: {
+    type:String,
+    required: true,
+    minlength: 3
+  },
+  url: {
+    type:String,
+    required: true,
+    minlength: 3
+  },
+  likes: Number,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
+
 })
 
 blogSchema.set('toJSON', {
