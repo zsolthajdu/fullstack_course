@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const CreateForm = (props) => {
 
-  const [newURL, setNewURL ] = useState('') 
-  const [newTitle, setNewTitle] = useState('') 
-  const [newAuthor, setNewAuthor ] = useState('') 
+  const [newURL, setNewURL ] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor ] = useState('')
 
 
   const handleUrlChange = (event) => {
@@ -30,23 +31,26 @@ const CreateForm = (props) => {
 
   return (
     <div>
-    <h2>Create new</h2>
-    <form onSubmit= {addBlog} >
-      <div>
+      <h2>Create new</h2>
+      <form onSubmit= {addBlog} >
+        <div>
         Title : <input  value={newTitle } onChange={handleTitleChange} />
-      </div>
-      <div>
+        </div>
+        <div>
         Author : <input  value={newAuthor } onChange={handleAuthorChange} />
-      </div>
-      <div>
-        Url : <input  value={newURL } onChange={handleUrlChange} />
-      </div>
-      <button type="submit">Create</button>
-    </form>
+        </div>
+        <div>
+          Url : <input  value={newURL } onChange={handleUrlChange} />
+        </div>
+        <button type="submit">Create</button>
+      </form>
     </div>
 
   )
+}
 
+CreateForm.propTypes = {
+  handleCreate: PropTypes.func.isRequired
 }
 
 export default CreateForm

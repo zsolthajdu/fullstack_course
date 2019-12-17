@@ -3,17 +3,17 @@ import Blog from './components/Blog'
 import CreateForm from './components/CreateForm'
 import Notification from './components/Notification'
 import Error from './components/Error'
-//import Footer from './components/Footer'
 import blogService from './services/blogs'
-import loginService from './services/login'  
+import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]) 
+  const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('') 
-  const [user, setUser] = useState(null) 
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     blogService
@@ -58,9 +58,11 @@ const App = () => {
       title={blog.title}
       author={blog.author}
       url={blog.url}
+      likes={blog.likes}
+      adder={blog.user.name}
     />
   )
-  
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -96,7 +98,7 @@ const App = () => {
 
 
   const addBlog = ( url, title, author ) => {
-    console.log( "Url = " , {url} )
+    console.log( 'Url = ' , { url } )
     const blogObject = {
       title: title,
       author: author,
@@ -117,7 +119,7 @@ const App = () => {
         if( error.response.data.error )
           setMessage( error.response.data.error )
         else
-//console.log( error.response.data )
+        //console.log( error.response.data )
           setError( `Error adding  '${title}' !!'` )
         setTimeout(() => {
           setError('')
@@ -136,8 +138,10 @@ const App = () => {
         loginForm() :
         <div>
           <p><b>{user.name}</b> logged in <button onClick={ () => doLogout()}>logout</button></p>
-          
-          <CreateForm handleCreate={ addBlog } />
+
+          <Togglable buttonLabel='add blog'>
+            <CreateForm handleCreate={ addBlog } />
+          </Togglable>
         </div>
       }
 
@@ -148,4 +152,4 @@ const App = () => {
   )
 }
 
-export default App 
+export default App
