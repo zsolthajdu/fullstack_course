@@ -6,20 +6,24 @@ import Error from './components/Error'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
+import { useField, FieldInput } from './hooks'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField( 'text' )
+  const password = useField('password')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then(initialBlogs => setBlogs(initialBlogs))
-  }, [])
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if( loggedUserJSON ) {
+      blogService
+        .getAll()
+        .then(initialBlogs => setBlogs(initialBlogs))
+    }
+  },[])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -34,7 +38,8 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        'username': username.value,
+        'password': password.value,
       })
 
       window.localStorage.setItem(
@@ -42,8 +47,11 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      username.reset()
+      password.reset()
+      blogService
+        .getAll()
+        .then(initialBlogs => setBlogs(initialBlogs))
     } catch (exception) {
       setError('Wrong credentials')
       setTimeout(() => {
@@ -67,21 +75,11 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
+        <FieldInput {...username} />
       </div>
       <div>
         password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
+        <FieldInput {...password} />
       </div>
       <button type="submit">login</button>
     </form>
@@ -89,7 +87,9 @@ const App = () => {
 
   const doLogout = () => {
     window.localStorage.removeItem( 'loggedBlogappUser' )
+
     setUser( null )
+    setBlogs([])
     setMessage( 'User logged out successfully.')
     setTimeout(() => {
       setMessage( '' )

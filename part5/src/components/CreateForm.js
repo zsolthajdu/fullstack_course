@@ -1,32 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { useField, FieldInput } from '../hooks'
 
 const CreateForm = (props) => {
 
-  const [newURL, setNewURL ] = useState('')
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor ] = useState('')
-
-
-  const handleUrlChange = (event) => {
-    setNewURL(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
+  const URL = useField('text')
+  const title = useField('text')
+  const author = useField('text')
 
   const addBlog = (event) => {
     event.preventDefault()
-    console.log('createForm: calling parent..')
-    props.handleCreate( newURL, newTitle, newAuthor )
-    setNewURL('')
-    setNewTitle('')
-    setNewAuthor('')
+    props.handleCreate( URL.value, title.value, author.value )
+    URL.reset()
+    title.reset()
+    author.reset()
   }
 
   return (
@@ -34,13 +21,13 @@ const CreateForm = (props) => {
       <h2>Create new</h2>
       <form onSubmit= {addBlog} >
         <div>
-        Title : <input  value={newTitle } onChange={handleTitleChange} />
+        Title : <FieldInput {...title} />
         </div>
         <div>
-        Author : <input  value={newAuthor } onChange={handleAuthorChange} />
+        Author : <FieldInput {...author}/>
         </div>
         <div>
-          Url : <input  value={newURL } onChange={handleUrlChange} />
+          Url : <FieldInput {...URL} />
         </div>
         <button type="submit">Create</button>
       </form>
