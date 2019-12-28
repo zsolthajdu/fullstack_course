@@ -1,10 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Anecdote from '../components/Anecdote'
 import { addVote  } from '../reducers/anecdoteReducer';
 import { createSetMessage } from '../reducers/messageReducer'
 
 const AnecdoteList = (props) => {
-  let anecdotes = props.store.getState().anecdotes
+  let anecdotes = props.anecdotes
+  const filter = props.filter
   anecdotes.sort( (a,b) => {
     if( a.votes > b.votes )
       return -1
@@ -14,23 +16,37 @@ const AnecdoteList = (props) => {
   })
 
   const vote = (id) => {
-    console.log('vote', id)
+    //console.log('vote', id)
     const anek = anecdotes.find( an => an.id === id )
-    props.store.dispatch(addVote( id ))
-
-    props.store.dispatch( createSetMessage('Voted for anecdote \'' + anek.content + '\'' ) )
-    setTimeout(() => {
-      props.store.dispatch( createSetMessage(''))
-    }, 5000)
+    props.addVote( anek )
+    props.createSetMessage('Voted for anecdote \'' + anek.content + '\'', 5 ) 
   }
+
+  const anecdotesToShow = anecdotes.filter( a => {   return a.content.indexOf(filter) !== -1 })
 
   return (
     <div>
-      { anecdotes.map( anecdote =>
+      { anecdotesToShow.map( anecdote =>
         <Anecdote key={anecdote.id} anecdote={anecdote} handleClick={ vote} />
       )}
     </div>
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  //console.log( state )
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+const mapDispatchToProps = {
+  addVote,
+  createSetMessage
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)( AnecdoteList)

@@ -1,3 +1,4 @@
+
 const messageReducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_MESSAGE':
@@ -7,10 +8,18 @@ const messageReducer = (state = '', action) => {
   }
 }
 
-export const createSetMessage = message => {
-  return {
-    type: 'SET_MESSAGE',
-    message,
+export const createSetMessage = (message,timeout) => {
+  return dispatch => {
+    dispatch( {
+      type: 'SET_MESSAGE',
+      message,
+    })
+    setTimeout(() => {
+      dispatch( {
+        type: 'SET_MESSAGE',
+        message:'',
+      })
+    }, timeout*1000 )
   }
 }
 
