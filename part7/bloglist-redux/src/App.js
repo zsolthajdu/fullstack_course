@@ -4,16 +4,17 @@ import CreateForm from './components/CreateForm'
 import Notification from './components/Notification'
 import Error from './components/Error'
 import blogService from './services/blogs'
-import loginService from './services/login'
+//import loginService from './services/login'
 import Togglable from './components/Togglable'
-import { useField, FieldInput } from './hooks'
+import LoginForm from './components/LoginForm'
+//import { useField, FieldInput } from './hooks'
 
 const App = ( ) => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const username = useField( 'text' )
-  const password = useField('password')
+  //const username = useField( 'text' )
+  //const password = useField('password')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -35,57 +36,6 @@ const App = ( ) => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        'username': username.value,
-        'password': password.value,
-      })
-
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
-      username.reset()
-      password.reset()
-      blogService
-        .getAll()
-        .then(initialBlogs => setBlogs(initialBlogs))
-    } catch (exception) {
-      setError('Wrong credentials')
-      setTimeout(() => {
-        setError('')
-      }, 5000)
-    }
-  }
-  /*
-  const rows = () => blogs.map(blog =>
-    <Blog
-      key={blog.id}
-      title={blog.title}
-      author={blog.author}
-      url={blog.url}
-      likes={blog.likes}
-      adder={blog.user.name}
-    />
-  )
-*/
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <FieldInput {...username} />
-      </div>
-      <div>
-        password
-        <FieldInput {...password} />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
-
   const doLogout = () => {
     window.localStorage.removeItem( 'loggedBlogappUser' )
 
@@ -96,7 +46,6 @@ const App = ( ) => {
       setMessage( '' )
     }, 5000)
   }
-
 
   const addBlog = ( url, title, author ) => {
     console.log( 'Url = ' , { url } )
@@ -136,7 +85,7 @@ const App = ( ) => {
       <Error message={ error } />
 
       {user === null ?
-        loginForm() :
+        <LoginForm setError={(e) => setError(e)}  setUser={(u) => setUser(u)} setBlogs={(b) => setBlogs(b)} />  :
         <div>
           <p><b>{user.name}</b> logged in <button onClick={ () => doLogout()}>logout</button></p>
 
