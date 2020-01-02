@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import Blog from './Blog'
 
 const BlogList = (props) => {
@@ -22,4 +23,20 @@ const BlogList = (props) => {
   )
 }
 
-export default BlogList
+const mapStateToProps = (state) => {
+  //console.log( state )
+  return {
+    blogs: state.blogs
+  //    filter: state.filter
+  }
+}
+
+const mapDispatchToProps = {
+  //addVote,
+  //createSetMessage
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)( BlogList)

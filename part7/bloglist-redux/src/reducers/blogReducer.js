@@ -9,18 +9,18 @@ const reducer = (state = [], action) => {
   case 'CREATE':
     return [...state, action.data]
 /*
-    case 'ADD_VOTE':
-      const id = action.data
-      const anecdote = state.find( a => a.id === id )
-      const newAnecdote = {
-        ...anecdote,
-        votes: anecdote.votes+1
-      }
-      return state.map( dote =>
-        dote.id !== id ? dote : newAnecdote
-      )
+  case 'ADD_VOTE':
+    const id = action.data
+    const anecdote = state.find( a => a.id === id )
+    const newAnecdote = {
+      ...anecdote,
+      votes: anecdote.votes+1
+    }
+    return state.map( dote =>
+      dote.id !== id ? dote : newAnecdote
+    )
 */
-  case 'INIT_ANECDOTES':
+  case 'INIT_BLOGS':
     return action.data
 
   default:
