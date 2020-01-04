@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-//import PropTypes from 'prop-types'
 import { useField, FieldInput } from '../hooks'
 import { createBlog } from '../reducers/blogReducer'
 
@@ -12,7 +11,6 @@ const CreateForm = (props) => {
 
   const addBlog = (event) => {
     event.preventDefault()
-//    props.handleCreate( URL.value, title.value, author.value )
     props.createBlog( { 'url':URL.value, 'title':title.value, 'author':author.value } )
     URL.reset()
     title.reset()
@@ -42,11 +40,6 @@ const CreateForm = (props) => {
 const mapDispatchToProps = {
   createBlog
 }
-
-//CreateForm.propTypes = {
-//  handleCreate: PropTypes.func.isRequired
-//}
-
 
 export default connect(
   null,

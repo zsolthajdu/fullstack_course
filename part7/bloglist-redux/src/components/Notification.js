@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const notStyle = {
   color: 'green',
@@ -10,16 +11,27 @@ const notStyle = {
   marginBottom: 10
 }
 
-const Notification = ({ message }) => {
-  if (message === '') {
+const Notification = ({ notification }) => {
+  if (notification === '') {
     return null
   }
 
   return (
     <div style={notStyle} >
-      {message}
+      {notification}
     </div>
   )
 }
 
-export default Notification
+const mapStateToProps = (state) => {
+
+  return {
+    notification: state.notification
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(Notification)
+

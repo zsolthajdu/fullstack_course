@@ -1,8 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { useField, FieldInput } from '../hooks'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
-
+import { createSetError } from '../reducers/errorReducer'
+import { initializeBlogs } from '../reducers/blogReducer'
+import { createSetUser } from '../reducers/userReducer'
 
 const LoginForm = ( props ) => {
   const username = useField( 'text' )
@@ -21,17 +24,14 @@ const LoginForm = ( props ) => {
         'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
-      props.setUser(user)
+      props.createSetUser(user)
       username.reset()
       password.reset()
       blogService
         .getAll()
-        .then(initialBlogs => props.setBlogs(initialBlogs))
+        .then(initialBlogs => props.initializeBlogs( initialBlogs))
     } catch (exception) {
-      props.setError('Wrong credentials')
-      setTimeout(() => {
-        props.setError('')
-      }, 5000)
+      props.createSetError('Wrong credentials', 5 )
     }
   }
 
@@ -50,4 +50,13 @@ const LoginForm = ( props ) => {
   )
 }
 
-export default LoginForm
+const mapDispatchToProps = {
+  initializeBlogs,
+  createSetUser,
+  createSetError
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginForm )

@@ -48,6 +48,15 @@ export const initializeBlogs = () => {
   }
 }
 
+export const clearBlogs = () => {
+  return async dispatch => {
+    dispatch({
+      type: 'INIT_BLOGS',
+      data: [],
+    })
+  }
+}
+
 export const addVote = (blog) => {
   return async dispatch => {
     const updated = await BlogsService.addVote( blog )

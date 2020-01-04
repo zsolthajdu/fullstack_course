@@ -24,10 +24,8 @@ const BlogList = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  //console.log( state )
   return {
     blogs: state.blogs
-  //    filter: state.filter
   }
 }
 
