@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ title,author,url,likes,adder }) => {
+const Blog = ({ title,author,url,id }) => {
   const blogStyle = {
     paddingTop : 10,
     paddingLeft: 2,
@@ -9,26 +9,13 @@ const Blog = ({ title,author,url,likes,adder }) => {
     marginBottom: 5
   }
 
-  const [showDetails, setShowDetails] = useState( false )
-
-  const showWhenVisible = { display: showDetails ? '' : 'none' }
+  const pagelink = 'blogs/' + id
 
   return (
     <div style={blogStyle}>
-      <div onClick = {() => setShowDetails( !showDetails ) }>
-        <b>{title}</b> by {author}
-      </div>
-      <div style={ showWhenVisible } >
-        <div>
-          {url}
-        </div>
-        <div>
-        Likes: {likes} <button>Like</button>
-        </div>
-        <div>
-        Added by {adder}
-        </div>
-      </div>
+
+      <a href={pagelink}>{title}</a> by {author}
+
     </div>
   )
 

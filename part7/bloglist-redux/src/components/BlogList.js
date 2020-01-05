@@ -11,8 +11,7 @@ const BlogList = (props) => {
       title={blog.title}
       author={blog.author}
       url={blog.url}
-      likes={blog.likes}
-      adder={blog.user.name}
+      id={blog.id}
     />
   )
 

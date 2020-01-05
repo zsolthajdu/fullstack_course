@@ -1,13 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Togglable from './Togglable'
 import LoginForm from './LoginForm'
-import CreateForm from './CreateForm'
 import { createSetNotification } from '../reducers/notificationReducer'
 import { createSetUser } from '../reducers/userReducer'
 import { clearBlogs } from '../reducers/blogReducer'
 
-const UserInfo = ( props ) => {
+const NavigationBar = ( props ) => {
 
   const doLogout = () => {
     window.localStorage.removeItem( 'loggedBlogappUser' )
@@ -17,24 +16,26 @@ const UserInfo = ( props ) => {
     props.createSetNotification( 'User logged out successfully.', 5 )
   }
 
+  const padding = { padding: 5 }
+
   if( props.user === null )
     return (
-      <LoginForm />
+      <div>
+        <Link style={padding} to='/' >Blogs</Link>
+        <Link style={padding} to='/users' >Users</Link>
+        <LoginForm />
+      </div>
     )
   else {
-
     return (
       <div>
-        <p><b>{ props.user.name}</b> logged in <button onClick={ () => doLogout()}>logout</button></p>
-
-        <Togglable buttonLabel='add blog'>
-          <CreateForm />
-        </Togglable>
+        <Link style={padding} to='/' >Blogs</Link>
+        <Link style={padding} to='/users' >Users</Link>
+        <b>{ props.user.name}</b> logged in <button onClick={ () => doLogout()}>logout</button>
       </div>
     )
   }
 }
-
 
 const mapStateToProps = (state ) => {
   return {
@@ -42,4 +43,4 @@ const mapStateToProps = (state ) => {
   }
 }
 
-export default connect( mapStateToProps, { createSetNotification, createSetUser, clearBlogs } )( UserInfo )
+export default connect( mapStateToProps, { createSetNotification, createSetUser, clearBlogs } )( NavigationBar )

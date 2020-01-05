@@ -16,9 +16,7 @@ export const createSetUser = ( user ) => {
       type: 'SET_USER',
       user,
     })
-
   }
-
 }
 
 export default reducer

@@ -37,14 +37,13 @@ const LoginForm = ( props ) => {
 
   return (
     <form onSubmit={handleLogin}>
-      <div>
+
         username
-        <FieldInput {...username} />
-      </div>
-      <div>
+      <FieldInput {...username} />
+
         password
-        <FieldInput {...password} />
-      </div>
+      <FieldInput {...password} />
+
       <button type="submit">login</button>
     </form>
   )
