@@ -2,6 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CommentForm from './CommentForm'
+import { addVote } from '../reducers/blogReducer'
 
 const BlogPage = ( props ) => {
   if( props.blog === undefined )
@@ -15,6 +16,10 @@ const BlogPage = ( props ) => {
     </li>
   )
 
+  const handleLike = () => {
+    props.addVote( blog )
+  }
+
   return (
     <div>
       <h2>{ blog.title} by {blog.author}</h2>
@@ -22,7 +27,7 @@ const BlogPage = ( props ) => {
         <a href={blog.url} >{blog.url}</a>
       </div>
       <div>
-        {blog.likes} likes <button>Like</button>
+        {blog.likes} likes <button onClick= { () => handleLike() } >Like</button>
       </div>
       <div>
       Added by {blog.user.name}
@@ -48,5 +53,5 @@ const mapStateToProps = (state, ownProps ) => {
 
 export default connect(
   mapStateToProps,
-  null
+  { addVote }
 )( BlogPage)

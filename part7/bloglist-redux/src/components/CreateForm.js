@@ -1,44 +1,57 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { useField, FieldInput } from '../hooks'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import { createSetError } from '../reducers/errorReducer'
 import { createBlog } from '../reducers/blogReducer'
 
 const CreateForm = (props) => {
 
-  const URL = useField('text')
-  const title = useField('text')
-  const author = useField('text')
-
   const addBlog = (event) => {
     event.preventDefault()
-    props.createBlog( { 'url':URL.value, 'title':title.value, 'author':author.value } )
-    URL.reset()
-    title.reset()
-    author.reset()
+    const form = event.target
+    try{
+      props.createBlog( {
+        'url': form.elements.URL.value,
+        'title':form.elements.title.value,
+        'author':form.elements.author.value
+      } )
+
+    } catch (exception) {
+      props.createSetError('Adding new blog FAILED !!', 5 )
+    }
+    form.elements.title.value = ''
+    form.elements.author.value = ''
+    form.elements.URL.value = ''
   }
 
   return (
     <div>
       <h2>Create new</h2>
-      <form onSubmit= {addBlog} >
-        <div>
-        Title : <FieldInput {...title} />
-        </div>
-        <div>
-        Author : <FieldInput {...author}/>
-        </div>
-        <div>
-          Url : <FieldInput {...URL} />
-        </div>
-        <button type="submit">Create</button>
-      </form>
-    </div>
 
+      <Form onSubmit={addBlog} >
+        <Form.Group>
+          <Form.Label>Title :</Form.Label>
+          <Form.Control type="text" id='title' name="title"/>
+
+          <Form.Label>Author :</Form.Label>
+          <Form.Control type="text" id='author' name="author"/>
+
+          <Form.Label>Url :</Form.Label>
+          <Form.Control type="text" id='URL' name="URL"/>
+
+          <Button variant="primary" id='addBlog' type="submit" >
+            Create
+          </Button>
+        </Form.Group>
+      </Form>
+    </div>
   )
 }
 
 const mapDispatchToProps = {
-  createBlog
+  createBlog,
+  createSetError
 }
 
 export default connect(

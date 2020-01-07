@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import Table from 'react-bootstrap/Table'
 
 const UserList = ( props ) => {
   let users = props.users
@@ -11,6 +12,7 @@ const UserList = ( props ) => {
       <tr key={user.id}>
         <td><a href={userlink} >{user.name}</a></td>
         <td>{user.blogs.length}</td>
+        <td></td>
       </tr>
     )
   }
@@ -19,7 +21,8 @@ const UserList = ( props ) => {
   return (
     <div>
       <h3>Users</h3>
-      <table>
+
+      <Table striped>
         <thead>
           <tr>
             <th>Name</th>
@@ -30,7 +33,7 @@ const UserList = ( props ) => {
         <tbody>
           { rows() }
         </tbody>
-      </table>
+      </Table>
 
     </div>
   )

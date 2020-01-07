@@ -1,15 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
-const notStyle = {
-  color: 'green',
-  fontStyle: 'italic',
-  fontSize: 16,
-  borderStyle: 'solid',
-  borderRadius: 5,
-  padding: 10,
-  marginBottom: 10
-}
+import Alert from 'react-bootstrap/Alert'
 
 const Notification = ({ notification }) => {
   if (notification === '') {
@@ -17,9 +8,9 @@ const Notification = ({ notification }) => {
   }
 
   return (
-    <div style={notStyle} >
+    <Alert variant="success">
       {notification}
-    </div>
+    </Alert>
   )
 }
 

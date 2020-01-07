@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect, withRouter
+  Route,
 } from 'react-router-dom'
 
 import { connect } from 'react-redux'
@@ -42,7 +42,7 @@ const App = ( props ) => {
   }, [props])
 
   return (
-    <div>
+    <div className="container">
       <Router>
         <div>
           <div>

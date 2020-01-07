@@ -13,7 +13,7 @@ const CommentForm = ( props ) => {
 
     event.preventDefault()
     try {
-      const newComment = await blogService.comment(
+      await blogService.comment(
         props.blogId,
         {
           'comment': comment.value

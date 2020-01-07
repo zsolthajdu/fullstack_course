@@ -1,24 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Blog from './Blog'
+import Table from 'react-bootstrap/Table'
 
 const BlogList = (props) => {
   let blogs = props.blogs
 
-  const rows = () => blogs.map(blog =>
-    <Blog
-      key={blog.id}
-      title={blog.title}
-      author={blog.author}
-      url={blog.url}
-      id={blog.id}
-    />
-  )
+  const rows = () => blogs.map(blog => {
+    const pagelink = 'blogs/' + blog.id
+
+    return (
+      <tr key={blog.id} >
+        <td>
+          <a href={pagelink}>{blog.title}</a>
+        </td>
+        <td>
+          by {blog.author}
+        </td>
+      </tr>
+    )})
 
   return (
-    <ul>
-      { rows() }
-    </ul>
+    <Table striped>
+      <tbody>
+        { rows() }
+      </tbody>
+    </Table>
   )
 }
 

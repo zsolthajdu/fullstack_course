@@ -1,15 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Alert from 'react-bootstrap/Alert'
 
-const errStyle = {
-  color: 'red',
-  fontStyle: 'italic',
-  fontSize: 16,
-  borderStyle: 'solid',
-  borderRadius: 5,
-  padding: 10,
-  marginBottom: 10
-}
 
 const Error = ({ error }) => {
   if (error === '') {
@@ -17,9 +9,9 @@ const Error = ({ error }) => {
   }
 
   return (
-    <div style={errStyle} >
+    <Alert variant="danger">
       {error}
-    </div>
+    </Alert>
   )
 }
 

@@ -8,18 +8,20 @@ const reducer = (state = [], action) => {
   switch( action.type ) {
   case 'CREATE':
     return [...state, action.data]
-  /*
+
   case 'ADD_VOTE':
+  {
     const id = action.data
-    const anecdote = state.find( a => a.id === id )
-    const newAnecdote = {
-      ...anecdote,
-      votes: anecdote.votes+1
+    const blog = state.find( a => a.id === id )
+    const newBlog = {
+      ...blog,
+      likes: blog.likes + 1
     }
     return state.map( dote =>
-      dote.id !== id ? dote : newAnecdote
+      dote.id !== id ? dote : newBlog
     )
-  */
+  }
+
   case 'INIT_BLOGS':
     return action.data
 
@@ -58,8 +60,12 @@ export const clearBlogs = () => {
 }
 
 export const addVote = (blog) => {
+  const newBlog = {
+    ...blog,
+    likes: blog.likes + 1
+  }
   return async dispatch => {
-    const updated = await BlogsService.addVote( blog )
+    const updated = await BlogsService.update( blog.id, newBlog )
     dispatch({
       type:'ADD_VOTE',
       data: updated.id
