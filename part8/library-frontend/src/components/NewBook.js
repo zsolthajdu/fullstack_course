@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
-  const [author, setAuhtor] = useState('')
-  const [published, setPublished] = useState('')
+  const [author, setAuthor] = useState('')
+  const [published, setPublished] = useState(0)
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
@@ -16,9 +16,14 @@ const NewBook = (props) => {
 
     console.log('add book...')
 
+    await props.addBook({
+      variables: { title, author, published, genres }
+    })
+
+
     setTitle('')
-    setPublished('')
-    setAuhtor('')
+    setPublished(0)
+    setAuthor('')
     setGenres([])
     setGenre('')
   }
@@ -42,7 +47,7 @@ const NewBook = (props) => {
           author
           <input
             value={author}
-            onChange={({ target }) => setAuhtor(target.value)}
+            onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
@@ -50,7 +55,7 @@ const NewBook = (props) => {
           <input
             type='number'
             value={published}
-            onChange={({ target }) => setPublished(target.value)}
+            onChange={({ target }) => setPublished( Number(target.value ) ) }
           />
         </div>
         <div>
