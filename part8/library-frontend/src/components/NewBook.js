@@ -17,7 +17,8 @@ const NewBook = (props) => {
     console.log('add book...')
 
     await props.addBook({
-      variables: { title, author, published, genres }
+      variables: { title, author, published, genres },
+      update: props.updateCache
     })
 
 

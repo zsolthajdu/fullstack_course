@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Books = (props) => {
+const Recommendations = (props) => {
   const [ genre, setGenre] = useState( '' )
 
   if( !props.show ) 
@@ -65,9 +65,8 @@ const Books = (props) => {
           <button key={g} onClick={() => setGenre( g )}>{g}</button>
         )}
       </div>
-
     </div>
   )
 }
 
-export default Books
+export default Recommendations
