@@ -126,12 +126,7 @@ const resolvers = {
 
     allAuthors: () => Author.find({}),
   },
-  Author: {
-    bookCount: async( author) => {
-      B2 = await Book.find( { author: author.id } )
-      return B2.length
-    }
-  },
+ 
   Mutation: {
     addAuthor: async (root, args, context) => {
       const author = new Author( {...args} )
@@ -159,7 +154,7 @@ const resolvers = {
       if( author === null ) {
         // Author is not in list
         console.log( 'Adding author ' + args.author )
-        const new_author = new Author( { name: args.author, born:null } )
+        const new_author = new Author( { name: args.author, born:null, bookCount: 0 } )
         try {
           await new_author.save()
           author = new_author
@@ -171,11 +166,14 @@ const resolvers = {
         }
       }
       console.log( "addBook: author=" + author.name )
-      book.author = author
 
-      try {
-        await book.save()
-      }
+		author.bookCount++;
+		book.author = author
+
+		try {
+			await author.save()
+			await book.save()
+		}
       catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
