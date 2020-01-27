@@ -105,11 +105,15 @@ const resolvers = {
     allBooks: async (root, args ) => {
 
       if( args.author ) {
-        const author = Author.find( { name: args.author } )
-        // TODO fix 'author' argument. Doesn't work
-        B2 = await  Book.find( { author: author.id } )
-          .populate( 'author', { name:1,born:1 } )
-          .exec()
+        const author = await Author.find( { name: args.author } )
+        if( author === null ) {
+			 console.log( "Couldn't find " + args.author );
+		  }
+		  else {
+          B2 = await  Book.find( { author: author } )
+            .populate( 'author', { name:1,born:1,bookCount:1 } )
+            .exec()
+		  }
         if( args.genre )
           return B2.filter( b => b.genres.includes( args.genre ) )
         else
@@ -167,8 +171,8 @@ const resolvers = {
       }
       console.log( "addBook: author=" + author.name )
 
-		author.bookCount++;
-		book.author = author
+      author.bookCount++;
+      book.author = author
 
 		try {
 			await author.save()
