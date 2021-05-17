@@ -1,0 +1,8 @@
+Blog list backend using Node.js .
+Added blog entries are associated with user currently logged in.
+Uses token based authentication for user administration. (Description)[https://fullstackopen.com/en/part4/token_authentication]
+
+# Used environment variables
+* MONGODB_URI : full url of MongoDB database that stores the data.
+* PORT : The tco/ip port where the backend should be accessible. Frontend usually tries to use port 3003
+* SECRET : used by jwt library to create user token when user is logging in.
